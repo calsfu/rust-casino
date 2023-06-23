@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Header from '../../Header.svelte';
     import { invoke } from '@tauri-apps/api/tauri'
     type Roulette = {
         number: number,
@@ -36,6 +37,7 @@
     //     temp = await invoke('get_roll', { bet })
     // }
 </script>
+<Header/>
 <h1> Roulette</h1>
 <h2>
     <p> You have {total} dollars</p>

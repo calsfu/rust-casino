@@ -11,6 +11,7 @@ pub struct Card {
     pub suit: String,
     pub value: String,
     pub hidden: bool,
+    pub num: u8,
 }
 // trait CardTrait {
 //     fn new(suit: String, value: String) -> Card;
@@ -25,6 +26,7 @@ impl Card {
             suit: suit,
             value: value,
             hidden: false,
+            num: 0,
         }
     }
     fn get_blackjack_value(&self) -> u8 { //May have player score as a parameter to decide whether to use 1 or 11. Can also do in blackjac function.
@@ -77,6 +79,11 @@ impl Deck {
                 cards.push(Card::new(suit.to_string(), value.to_string()));
             }
         }
+        // let mut counter = 0;
+        // for card in cards {
+        //     card.num = counter;
+        //     counter += 1;
+        // }
         Deck { cards: cards }
     }
     pub fn shuffle_deck(&mut self) {
@@ -94,7 +101,9 @@ pub struct Player {
     pub name: String,
     pub hand: Vec<Card>,
     pub money: i64,
-    pub multiplier: u8,
+    multiplier: u8,
+    bust: bool,
+    blackjack_total: u8,
 }
 impl Player {
     pub fn new() -> Player {
@@ -103,28 +112,40 @@ impl Player {
             hand: Vec::new(),
             money: 50000,
             multiplier:2,
+            bust : false,
+            blackjack_total : 0,
         }
+    }
+    pub fn is_bust(&self) -> bool {
+        return self.bust;
+    }
+    pub fn set_bust(&mut self, bust: bool) {
+        self.bust = bust;
     }
     pub fn show_stats(&self) {
         println!("Name: {}", self.name);
         println!("Money: {}", self.money);
     }
-    pub fn get_blackjack_total(&mut self) -> u8 { //calculates and returns blackjack value
-        let mut blackjacktotal = 0;
+    pub fn get_blackjack_total(&self) -> u8 { //calculates and returns blackjack value
+        return self.blackjack_total
+    }
+    pub fn set_blackjack_total(&mut self) -> u8 { //calculates and returns blackjack value
+        let mut blackjack_total = 0;
         let mut ace:bool = false;
         for cards in self.hand.iter() {
             if cards.get_blackjack_value() == 11 {
-                blackjacktotal += 11;
+                blackjack_total += 11;
                 ace = true;
             }
             else {
-                blackjacktotal += cards.get_blackjack_value();
+                blackjack_total += cards.get_blackjack_value();
             }
         }
-        if ace && blackjacktotal > 21 {
-            blackjacktotal -= 10;
+        if ace && blackjack_total > 21 {
+            blackjack_total -= 10;
         }
-        return blackjacktotal
+        self.blackjack_total = blackjack_total; //
+        return 1;
     }
 }
 // trait PlayerTrait {

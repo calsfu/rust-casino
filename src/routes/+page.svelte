@@ -5,23 +5,23 @@
 
 <script>
     import Greet from './Login.svelte'
+    import Background from './Background.svelte'
 </script>
 
-<t1>
-    <h2>Casino</h2>
-    <button style="display:block; margin: 0 auto;">
-        <a href="/select">
-            Start
-        </a>
-    </button>
-</t1>
-
-  <h1>Welcome to SvelteKit</h1>
-  <Greet />
+<Background/>
+    <t1>
+        <h2>Casino</h2>
+        <button style="display:block; margin: 0 auto;">
+            <a href="/select">
+                Start
+            </a>
+        </button>
+    </t1>
 
 <style>
     t1 {
         text-align: center;
         margin-top: auto;
     }
+   
 </style>

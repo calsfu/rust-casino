@@ -3,9 +3,8 @@
   windows_subsystem = "windows"
 )]
 
-use app::{Blackjack, Deck, Roulette, Table};
+use app::{Blackjack, Roulette};
 
-use serde_json::Result;
 
 #[tauri::command]
 fn greet(name: String) -> String {
@@ -17,9 +16,9 @@ fn greet(name: String) -> String {
 //will then need to be put as an arugment any time a player takes an action
 
 #[tauri::command]
-fn start_blackjack(bet: &str) -> Blackjack {
+fn start_blackjack(bet: String) -> Blackjack {
   let mut game = Blackjack::new();
-  game.start_game();
+  game.start_game(bet.parse::<u32>().unwrap());
 
   return game;
   //return game.table.players[0].hand.iter().map(|card| card.to_string()).collect();
@@ -27,7 +26,13 @@ fn start_blackjack(bet: &str) -> Blackjack {
 
 #[tauri::command]
 fn create_blackjack() -> Blackjack {
-  let mut game = Blackjack::new();
+  let game = Blackjack::new();
+  return game;
+}
+
+#[tauri::command]
+fn end_game(mut game : Blackjack) -> Blackjack {
+  game.game_over();
   return game;
 }
 
@@ -55,7 +60,7 @@ fn play_roulette(bets: String, placement: String) -> Roulette {
 fn main() {
   
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![greet, start_blackjack, play_roulette, create_blackjack,  deal_card])
+    .invoke_handler(tauri::generate_handler![greet, start_blackjack, play_roulette, create_blackjack,  deal_card, end_game])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }

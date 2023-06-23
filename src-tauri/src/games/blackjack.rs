@@ -1,10 +1,12 @@
-use std::io;
 
 use crate::game_components::{Table, Player, Card};
 
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct Blackjack {
     table: Table,
+    bet: u32,
+    net: u64,
+    playerWin : bool,
 }
 
 // trait BlackjackTrait {
@@ -26,12 +28,58 @@ impl Blackjack {
         for _i in 0..=1 {
             temp_table.add_player();
         }
-        Blackjack { table: temp_table }
+        Blackjack { 
+            table: temp_table,
+            bet: 0, 
+            net: 0,
+            playerWin : false,
+        }
+    }
+    pub fn game_over(&mut self) {
+        println!("Ending game...");
+        let mut net = 0;
+        self.table.dealer.hand[1].hidden = false;
+        self.table.dealer.set_blackjack_total(); //change this later
+        while self.table.dealer.get_blackjack_total() < 17 {
+            self.table.dealer.hand.push(self.table.deck.deal());
+            self.table.dealer.set_blackjack_total();
+        }
+        if self.table.players[0].get_blackjack_total() > 21 { //should never run
+            println!("You lose");
+        }
+        else if self.table.dealer.get_blackjack_total() > 21 || self.table.dealer.get_blackjack_total() < self.table.players[0].get_blackjack_total() {
+            net = self.bet * 2;
+            self.playerWin = true;
+            self.table.dealer.set_bust(true);
+            println!("You win {}", net);
+        }
+        else if self.table.dealer.get_blackjack_total() == self.table.players[0].get_blackjack_total() {
+            net = self.bet;
+            println!("Push {}", net);
+        }
+        
+        
     }
     pub fn deal_card(&mut self) {
-        self.table.players[0].hand.push(self.table.deck.deal());
+        if self.table.players[0].is_bust() {
+            println!("Cannot deal to a busted player");
+        }
+        else {
+            self.table.players[0].hand.push(self.table.deck.deal());
+            println!("Player 1 cards are {}", self.table.players[0].hand[1]);
+            self.table.players[0].set_blackjack_total(); //change this later
+            println!("Blackjack total is {}",  self.table.players[0].get_blackjack_total());
+            if self.table.players[0].get_blackjack_total() > 21 {
+                self.game_over();
+                self.table.players[0].set_bust(true);
+                println!("Bust:");
+            }
+        }
     }
-    pub fn start_game(&mut self) {
+    pub fn start_game(&mut self, bet: u32) {
+        self.bet = bet;
+        self.playerWin = false;
+        self.table.players[0].set_bust(false);
         for _i in 0..=1 {
             self.table.dealer.hand.push(self.table.deck.deal());
         }
@@ -39,6 +87,7 @@ impl Blackjack {
         //for player in self.table.players.iter_mut() {
             self.table.players[0].hand.push(self.table.deck.deal());
             self.table.players[0].hand.push(self.table.deck.deal());
+            self.table.players[0].set_blackjack_total();
         //}
         println!("Player 1 cards are {}", self.table.players[0].hand[0]);
         println!("Player 1 cards are {}", self.table.players[0].hand[1]);

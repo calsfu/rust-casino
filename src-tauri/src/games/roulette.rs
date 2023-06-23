@@ -1,7 +1,3 @@
-use crate::game_components::{Table};
-use std::io;
-use std::time::Duration;
-use std::{thread, time};
 use rand::prelude::*;
 
 
@@ -49,7 +45,7 @@ pub fn find_color(num:u8) -> char {
 pub struct Roulette {
     //pub table: Table,
     pub bets: Vec<String>,
-    moneyBets: Vec<u32>,
+    money_bets: Vec<u32>,
     color: char,
     net: u64,
     number: u8, //0-37 where 37 is 00
@@ -60,19 +56,18 @@ impl Roulette { //Will roll a number, then a number will be selected
         Roulette {
             //table : Table::new(),
             bets : Vec::new(),
-            moneyBets : Vec::new(),
+            money_bets : Vec::new(),
             color : 'z',
             number : 0,
             net : 0,
         }
     }
     
-    pub fn check_win(&self, bets:Vec<String>) -> bool {
-        let mut counter:u8 = 0;
-        for bets in bets.iter() {
-            
-            counter += 1;
-        }
+    pub fn check_win(&self, _bets:Vec<String>) -> bool {
+        // let mut counter:u8 = 0;
+        // for _bets in bets.iter() {
+        //     counter += 1;
+        // }
         return false;
     }
 //     pub fn start_game(&mut self, bets:Vec<u32> , placements:Vec<String> ) -> u64 {
@@ -158,7 +153,7 @@ pub fn start_game(&mut self, bets:u32 , place:String ) {
 //                 println!("Bet is higher than the tables max bet. Please enter a lower bet");
 //             }
 //             else {
-//                 self.moneyBets.push(bet);
+//                 self.money_bets.push(bet);
 //                 break;
 //             }
 //         }
