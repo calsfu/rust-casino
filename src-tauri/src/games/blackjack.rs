@@ -6,7 +6,7 @@ pub struct Blackjack {
     table: Table,
     bet: u32,
     net: u64,
-    playerWin : bool,
+    player_win : bool,
 }
 
 // trait BlackjackTrait {
@@ -32,12 +32,12 @@ impl Blackjack {
             table: temp_table,
             bet: 0, 
             net: 0,
-            playerWin : false,
+            player_win : false,
         }
     }
     pub fn game_over(&mut self) {
         println!("Ending game...");
-        let mut net = 0;
+        let net ;
         self.table.dealer.hand[1].hidden = false;
         self.table.dealer.set_blackjack_total(); //change this later
         while self.table.dealer.get_blackjack_total() < 17 {
@@ -49,7 +49,7 @@ impl Blackjack {
         }
         else if self.table.dealer.get_blackjack_total() > 21 || self.table.dealer.get_blackjack_total() < self.table.players[0].get_blackjack_total() {
             net = self.bet * 2;
-            self.playerWin = true;
+            self.player_win = true;
             self.table.dealer.set_bust(true);
             println!("You win {}", net);
         }
@@ -78,7 +78,7 @@ impl Blackjack {
     }
     pub fn start_game(&mut self, bet: u32) {
         self.bet = bet;
-        self.playerWin = false;
+        self.player_win = false;
         self.table.players[0].set_bust(false);
         for _i in 0..=1 {
             self.table.dealer.hand.push(self.table.deck.deal());
