@@ -3,7 +3,7 @@
   windows_subsystem = "windows"
 )]
 
-use app::{Blackjack, Roulette};
+use app::{Blackjack, Roulette, Slots};
 
 
 #[tauri::command]
@@ -51,6 +51,13 @@ fn play_roulette(bets: String, placement: String) -> Roulette {
   return game; 
 }
 
+#[tauri::command]
+fn play_slots(bets: String) -> Slots {
+  let bet = bets.parse::<u32>().unwrap();
+  let mut game = Slots::new();
+  game.start_game(bet);
+  return game;
+}
 // fn main() {
 //   tauri::Builder::default()
 //     .run(tauri::generate_context!())
@@ -60,7 +67,7 @@ fn play_roulette(bets: String, placement: String) -> Roulette {
 fn main() {
   
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![greet, start_blackjack, play_roulette, create_blackjack,  deal_card, end_game])
+    .invoke_handler(tauri::generate_handler![greet, start_blackjack, play_roulette, create_blackjack,  deal_card, end_game, play_slots])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
