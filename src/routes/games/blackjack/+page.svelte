@@ -2,7 +2,8 @@
 	import Header from '../../Header.svelte';
     import { invoke } from '@tauri-apps/api/tauri'
     import { flip } from 'svelte/animate';
-    let bet = 0;
+	import Background from '../../Background.svelte';
+    let bet:number;
     let total = 500;
     let myCardsString = '';
     let dealerString = '';
@@ -103,17 +104,21 @@
  
 </script>
 <Header/>
-<h1> Blackjack</h1>
-    <p>Balance: {total}</p>
+<Background/>
+<title>
+    <h1> Blackjack</h1>
+    <h2>Balance: {total}</h2>
+</title>
+
 <h2>
     {#if !gameStarted || gameEnded}
-    <input id="bet-amount" placeholder="Bet amount " bind:value="{bet}" />
-    <button on:click="{start_game}">Place</button>
+    <input id="bet-amount" placeholder="Bet amount... " bind:value="{bet}" />
+    <button class="button-5" on:click="{start_game}">Place</button>
     {/if}
     {#if gameStarted}
     <p>{endString}</p>
-    <button on:click="{deal_card}">Deal</button>
-    <button on:click="{end_game}">Hold</button>
+    <button class="button-5" on:click="{deal_card}">Deal</button>
+    <button class="button-5" on:click="{end_game}">Hold</button>
    <p>My cards: </p>
     <!-- <img src="{playerCards[0]}" alt="Card 1" />
     <img src="{playerCards[1]}" alt="Card 2" />
@@ -157,5 +162,60 @@
         width: 70px;
         height: auto;
         margin: 10px;
+    }
+    title {
+        display: grid;
+        justify-content: center;
+        color:#38c740;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .button-5 {
+    align-items: center;
+    background-clip: padding-box;
+    background-color: #38c740;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin: 0;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: auto;
+    }
+    .button-5:hover,
+    .button-5:focus {
+    background-color: #187224;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+    }
+
+    .button-5:hover {
+    transform: translateY(-1px);
+    }
+
+    .button-5:active {
+    background-color: #187224;
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+    transform: translateY(0);
+    }
+
+    input {
+        height: 30px;
+        border-radius: 10px;
+        border : 1px solid #38c740;
     }
 </style>
