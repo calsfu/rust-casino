@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Background from '../../Background.svelte';
     import Header from '../../Header.svelte';
+    import Balance from '../../Balance.svelte';
     import { invoke } from '@tauri-apps/api/tauri'
     type Roulette = {
         number: number,
@@ -41,7 +42,7 @@
 <Background/>
 <title>
     <h1> Roulette</h1>
-    <h2> You have {total} dollars</h2>
+    <Balance/>
 </title>
 
 <h2>

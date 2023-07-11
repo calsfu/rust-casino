@@ -3,6 +3,7 @@
     import { invoke } from '@tauri-apps/api/tauri'
     import { flip } from 'svelte/animate';
 	import Background from '../../Background.svelte';
+    import Balance from '../../Balance.svelte';
     let bet:number;
     let total = 500;
     let myCardsString = '';
@@ -107,7 +108,7 @@
 <Background/>
 <title>
     <h1> Blackjack</h1>
-    <h2>Balance: {total}</h2>
+    <Balance/>
 </title>
 
 <h2>

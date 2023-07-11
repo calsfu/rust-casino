@@ -1,5 +1,7 @@
 <script>
     import Background from '../Background.svelte'
+	import Balance from '../Balance.svelte';
+    let total = 500;
 </script>
 
 <Background/>
@@ -10,7 +12,12 @@
     </a>
 </button>
 
-<h1>Choose a game</h1>
+<intro>
+    <h1>Choose a game</h1>
+    <Balance/>
+</intro>
+
+
 <button>
     <a href="/games/blackjack">
         <img src="src/lib/images/Casino-stock/blackjack.jpg" alt="Blackjack" width="300" height="200">
@@ -47,7 +54,7 @@
         text-decoration: none;
         color: white;
     }
-    h1 {
+    intro {
         color:#38c740;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }

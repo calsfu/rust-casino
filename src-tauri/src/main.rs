@@ -5,7 +5,6 @@
 
 use app::{Blackjack, Roulette, Slots};
 
-
 #[tauri::command]
 fn greet(name: String) -> String {
   
