@@ -110,7 +110,7 @@ impl Player {
         Player {
             name: String::new(),
             hand: Vec::new(),
-            money: 50000,
+            money: 200,
             multiplier:2,
             bust : false,
             blackjack_total : 0,

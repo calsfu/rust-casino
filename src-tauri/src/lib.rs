@@ -7,6 +7,11 @@ pub mod games {
     pub mod slots;
 }
 
+
+
 pub use games::blackjack::Blackjack;
 pub use games::roulette::Roulette;
 pub use games::slots::Slots;
+
+pub mod casino;
+pub use casino::Casino;

@@ -5,7 +5,7 @@
 	import Background from '../../Background.svelte';
     import Balance from '../../Balance.svelte';
     let bet:number;
-    let total = 500;
+    let total:number;
     let myCardsString = '';
     let dealerString = '';
     let endString = '';
@@ -21,6 +21,7 @@
         dealerString = '';
         playerCards = [];
         dealerCards = [];
+        total = game.table.players[0].total;
         for(var card of game.table.players[0].hand) {
             let cardString = '/src/lib/images/' + card.suit + '/' + card.value  + '.png';
             playerCards.push(cardString);
@@ -108,7 +109,7 @@
 <Background/>
 <title>
     <h1> Blackjack</h1>
-    <Balance/>
+    <Balance balance={200}/>
 </title>
 
 <h2>

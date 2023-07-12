@@ -1,8 +1,8 @@
-<script>
-    let total = 200;
+<script lang='ts'>
+    export let balance:number;
 </script>
 
-<h2>Balance: ${total}</h2>
+<h2>Balance: ${balance}</h2>
 
 <style>
     h2 {
