@@ -2,41 +2,29 @@
 	import Background from '../../Background.svelte';
     import Header from '../../Header.svelte';
     import Balance from '../../Balance.svelte';
+	import { balance } from '../../balance';
     import { invoke } from '@tauri-apps/api/tauri'
-    type Roulette = {
-        number: number,
-        color: String
-        net: number,
+
+    type Result = {
+        outcome: string,
+        total: number,
     }
     let bet = 0;
     let placement = 'B';
-    let total = 500;
     let text = '';
     let outcome = '';
     let winnings = '';
     async function play() {
-
-        if(bet < 0) {
-            text = "You can't place a negative bet!";
-            return;
-        }
-        if(bet > total) {
-            text = "You don't have enough money to place that bet!";
-            return;
-        }
         text = "You placed " + bet + " dollars on " + placement;
-        total -= bet;
-        let game:Roulette = await invoke('play_roulette', {
+        let result:Result = await invoke('play_roulette', {
             bets: bet, 
             placement: placement,
             });
-        outcome = "The ball landed on " +  game.number + " which is " + game.color;
-        winnings = "You won " + game.net + " dollars!";
-        total += game.net;
+        outcome = result.outcome;
+        balance.set(result.total);
+  
     }
-    // async function check_bet() {
-    //     temp = await invoke('get_roll', { bet })
-    // }
+
 </script>
 <Header/>
 <Background/>

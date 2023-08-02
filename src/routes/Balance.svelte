@@ -1,8 +1,14 @@
 <script lang='ts'>
-    export let balance:number;
+    import { invoke } from '@tauri-apps/api/tauri'
+    import { balance } from './balance.js'
+
+    let balVal: number;
+    balance.subscribe(value => {
+        balVal = value;
+    })
 </script>
 
-<h2>Balance: ${balance}</h2>
+<h2>Balance: {balVal}</h2>
 
 <style>
     h2 {

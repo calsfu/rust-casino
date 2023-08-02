@@ -13,12 +13,7 @@ pub struct Card {
     pub hidden: bool,
     pub num: u8,
 }
-// trait CardTrait {
-//     fn new(suit: String, value: String) -> Card;
-//     fn get_suit(&self) -> String;
-//     fn get_value(&self) -> String;
-//     fn get_blackjack_value(&self) -> u8;
-// }
+
 
 impl Card {
     fn new(suit: String, value: String) -> Card { //Creates a new card. Might not be used much
@@ -60,12 +55,6 @@ pub struct Deck {
     pub cards: Vec<Card>,
 }
 
-// trait DeckTrait {
-//     fn new() -> Deck;
-//     fn get_cards(&self) -> Vec<Card>;
-//     fn shuffle_deck(&mut self);
-//     fn deal(&mut self) -> Card;
-// }
 
 impl Deck {
     pub fn new() -> Deck {
@@ -100,7 +89,7 @@ impl Deck {
 pub struct Player {
     pub name: String,
     pub hand: Vec<Card>,
-    pub money: i64,
+    pub money: u64,
     multiplier: u8,
     bust: bool,
     blackjack_total: u8,
@@ -115,6 +104,12 @@ impl Player {
             bust : false,
             blackjack_total : 0,
         }
+    }
+    pub fn add_total(&mut self, amount: u64) {
+        self.money += amount;
+    }
+    pub fn remove_total(&mut self, amount: u64) {
+        self.money -= amount;
     }
     pub fn is_bust(&self) -> bool {
         return self.bust;
@@ -147,12 +142,10 @@ impl Player {
         self.blackjack_total = blackjack_total; //
         return 1;
     }
+    pub fn get_money(&self) -> String {
+        return format!("{}", self.money);
+    }
 }
-// trait PlayerTrait {
-//     fn get_name(&self) -> String;
-//     fn get_hand(&self) -> Vec<Card>;
-//     fn get_blackjack_total(&mut self) -> u8; 
-// }
 
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct Table {
@@ -185,8 +178,3 @@ impl Table {
         self.players.pop();
     }
 }
-// trait TableTrait {
-//     fn add_player(&mut self);
-//     fn remove_player(&mut self);
-//     fn get_number(&self) -> u32;
-// }
