@@ -3,15 +3,15 @@
     import Header from '../../Header.svelte';
     import Balance from '../../Balance.svelte';
     import { invoke } from '@tauri-apps/api/tauri'
+	import { balance } from '../../balance';
     type Slots = {
-        bet : number, 
+        total : number, 
         slot1: number, 
         slot2: number,
         slot3: number,
-        net: number,
+        outcome: string,
     }
     let place: number;
-    let total = 500;
     let text = '';
     let s1 = "/src/lib/images/Slot/7.jpg";
     let s2 = "/src/lib/images/Slot/7.jpg";
@@ -22,27 +22,15 @@
         //1 is diamond
         //2 is cherry
         let bet = place;
-        if(Number.isNaN(total - bet)) {
-            text = "You must place a bet!";
-            return;
-        }
-        total -= bet;
-        if(bet < 0) {
-            text = "You can't place a negative bet!";
-            return;
-        }
-        if(bet > total) {
-            text = "You don't have enough money to place that bet!";
-            return;
-        }
         let game:Slots = await invoke('play_slots', {
             bets: bet, 
         });
         s1 = options[game.slot1];
         s2 = options[game.slot2];
         s3 = options[game.slot3];
-        total += game.net;
-        text = "You won " + game.net + " dollars!";
+        balance.set(game.total);
+        //total += game.net;
+        text = game.outcome;
         
     }
 </script>
